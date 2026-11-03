@@ -745,13 +745,14 @@ function renderCard(id, recordHistory = true) {
       <span class="card-code">No.${Object.keys(CARDS).indexOf(id.toString()) + 1}</span>
     </div>
 
-    <!-- Official Real Artwork Direct Fetch (no-referrer) -->
+    <!-- Official Artwork with cards_cropped & Multi-tier Fallback (Codex Engine) -->
     <div class="card-stage-container">
       <img id="card-img-element" class="official-card-img" 
-           src="https://images.ygoprodeck.com/images/cards/${id}.jpg" 
+           src="https://images.ygoprodeck.com/images/cards_cropped/${id}.jpg" 
            alt="${card.name}"
            referrerpolicy="no-referrer"
-           loading="lazy">
+           loading="lazy"
+           onerror="this.onerror=null; this.src='https://images.ygoprodeck.com/images/cards_small/${id}.jpg'; this.onerror=()=>{ this.src='https://images.ygoprodeck.com/images/cards/${id}.jpg'; };">
     </div>
 
     <div class="stats-grid">
