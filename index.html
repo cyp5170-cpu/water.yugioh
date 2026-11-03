@@ -1,42 +1,991 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>水属性カード完全接続大辞典 (Water Codex 98 Master)</title>
-  <style>
-     :root {
-          --win-gray: #c0c0c0;
-          --win-light: #ffffff;
-          --win-dark: #808080;
-          --win-black: #000000;
-          --win-navy: #000080;
-          --win-cyan: #008080;
-     }
-     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-     body {
-          margin: 0;
-          padding: 0;
-          background-color: var(--win-cyan);
-          font-family: 'MS Gothic', 'MS PGothic', 'Meiryo', sans-serif;
-          color: var(--win-black);
-          font-size: 13px;
-          height: 100vh;
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-     }
-     .win-outset {
-          bordertop: 2px solid var(--win-light);
-          border-left: 2px solid var(--win-light);
-          border-right: 2px solid var(--win-black);
-          border-bottom: 2px solid var(--win-black);
-          box-shadow: inset -1px -1px var(--windark), inset 1px 1px var(--win-light);
-     }
-     .win-inset {
-          border-top: 2px solid var(--win-dark);
-          border-left: 2px solid var(--win-dark);
-          border-right: 2px solid var(winlight);   borderbottom: 2px solid var(winlight);   backgroundcolor: #fff; } .win-btn {   backgroundcolor: var(-wingray);   bordertop: 2px solid var(-winlight);   border-left: 2px solid var(-winlight);   borderright: 2px solid var(winblack);
-                                                                                                                                  borderbottom: 2px solid var(winblack);   padding: 3px 8px;   fontsize: 12px;
-  </style></title>
-  </head>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>水属性カード完全接続大辞典 (Water Codex 98 Master)</title>
+<style>
+  :root {
+    --win-gray: #c0c0c0;
+    --win-light: #ffffff;
+    --win-dark: #808080;
+    --win-black: #000000;
+    --win-navy: #000080;
+    --win-cyan: #008080;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--win-cyan);
+    font-family: 'MS Gothic', 'MS PGothic', 'Meiryo', sans-serif;
+    color: var(--win-black);
+    font-size: 13px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .win-outset {
+    border-top: 2px solid var(--win-light);
+    border-left: 2px solid var(--win-light);
+    border-right: 2px solid var(--win-black);
+    border-bottom: 2px solid var(--win-black);
+    box-shadow: inset -1px -1px var(--win-dark), inset 1px 1px var(--win-light);
+  }
+  .win-inset {
+    border-top: 2px solid var(--win-dark);
+    border-left: 2px solid var(--win-dark);
+    border-right: 2px solid var(--win-light);
+    border-bottom: 2px solid var(--win-light);
+    background-color: #fff;
+  }
+  .win-btn {
+    background-color: var(--win-gray);
+    border-top: 2px solid var(--win-light);
+    border-left: 2px solid var(--win-light);
+    border-right: 2px solid var(--win-black);
+    border-bottom: 2px solid var(--win-black);
+    padding: 3px 8px;
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    user-select: none;
+  }
+  .win-btn:active {
+    border-top: 2px solid var(--win-black);
+    border-left: 2px solid var(--win-black);
+    border-right: 2px solid var(--win-light);
+    border-bottom: 2px solid var(--win-light);
+    padding: 4px 7px 2px 9px;
+  }
+  .win-btn:disabled {
+    color: var(--win-dark);
+    text-shadow: 1px 1px var(--win-light);
+    pointer-events: none;
+  }
+
+  #app-window {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 2px;
+    background-color: var(--win-gray);
+    overflow: hidden;
+  }
+  .title-bar {
+    background: linear-gradient(90deg, var(--win-navy), #1084d0);
+    color: white;
+    padding: 3px 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 12px;
+  }
+  .title-bar-controls {
+    display: flex;
+    gap: 2px;
+  }
+  .title-btn {
+    width: 18px;
+    height: 16px;
+    background-color: var(--win-gray);
+    border-top: 1px solid var(--win-light);
+    border-left: 1px solid var(--win-light);
+    border-right: 1px solid var(--win-black);
+    border-bottom: 1px solid var(--win-black);
+    font-size: 10px;
+    line-height: 14px;
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .toolbar {
+    padding: 3px 5px;
+    background-color: var(--win-gray);
+    border-bottom: 2px solid var(--win-dark);
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .breadcrumb-box {
+    flex: 1;
+    overflow-x: auto;
+    background: white;
+    padding: 2px 6px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 25px;
+    white-space: nowrap;
+  }
+  .crumb-link {
+    color: var(--win-navy);
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  #main-viewport {
+    flex: 1;
+    overflow-y: auto;
+    padding: 6px;
+    background-color: #f0f0f0;
+  }
+
+  .card-sheet {
+    background: white;
+    padding: 10px;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+  .card-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 2px solid var(--win-navy);
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+  }
+  .card-title-jp {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--win-navy);
+  }
+  .card-kana {
+    font-size: 10px;
+    color: #555;
+    margin-left: 4px;
+  }
+  .card-code {
+    font-size: 11px;
+    font-family: monospace;
+    color: #666;
+  }
+
+  .card-stage-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 2px inset var(--win-dark);
+    min-height: 380px;
+    position: relative;
+  }
+  .official-card-img {
+    max-width: 100%;
+    max-height: 380px;
+    object-fit: contain;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+    display: block;
+  }
+  .img-control-bar {
+    margin-top: 6px;
+    display: flex;
+    gap: 6px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background: #222;
+    padding: 4px;
+    border-radius: 3px;
+  }
+  .img-badge {
+    font-size: 10px;
+    color: #00ffcc;
+  }
+
+  .stats-grid {
+    display: flex;
+    justify-content: space-between;
+    background: #e4eaf4;
+    border: 1px solid #7c9ac7;
+    padding: 5px 7px;
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+  .official-text-box {
+    background: #fffdf5;
+    border: 1px solid #c9b987;
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.55;
+    margin-bottom: 9px;
+  }
+
+  .section-box {
+    margin-bottom: 9px;
+    padding: 8px 10px;
+  }
+  .section-title {
+    font-weight: bold;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 5px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #bbb;
+  }
+  .box-role { background-color: #eaf1fb; border-left: 4px solid #2f5597; }
+  .box-dest { background-color: #f1f8ee; border-left: 4px solid #38761d; }
+  .box-rule { background-color: #fff3e0; border-left: 4px solid #b45f06; }
+
+  .network-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+  .connect-link-btn {
+    background: #ffffff;
+    border: 1px solid #999;
+    padding: 6px 9px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  }
+  .connect-link-btn:active {
+    background: #d8e6f8;
+  }
+  .tag-call { background: #000080; color: white; padding: 2px 5px; font-size: 10px; font-weight: bold; }
+  .tag-mat { background: #555555; color: white; padding: 2px 5px; font-size: 10px; font-weight: bold; }
+  .tag-dest { background: #274e13; color: white; padding: 2px 5px; font-size: 10px; font-weight: bold; }
+
+  #drawer-backdrop {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    z-index: 100;
+  }
+  #card-drawer {
+    position: fixed;
+    top: 0; left: -290px;
+    width: 280px;
+    height: 100%;
+    background: var(--win-gray);
+    box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+    z-index: 101;
+    transition: left 0.2s ease-out;
+    display: flex;
+    flex-direction: column;
+  }
+  #card-drawer.open {
+    left: 0;
+  }
+  .drawer-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px;
+  }
+  .drawer-item {
+    padding: 7px 8px;
+    border-bottom: 1px solid #aaa;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+  }
+  .drawer-item:hover, .drawer-item.active {
+    background: var(--win-navy);
+    color: white;
+  }
+
+  .taskbar {
+    height: 30px;
+    background-color: var(--win-gray);
+    border-top: 2px solid var(--win-light);
+    display: flex;
+    align-items: center;
+    padding: 2px 4px;
+    gap: 4px;
+  }
+  .start-btn {
+    font-weight: bold;
+    padding: 3px 9px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .status-area {
+    flex: 1;
+    background: var(--win-gray);
+    padding: 3px 6px;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
+</head>
+<body>
+
+<div id="drawer-backdrop" onclick="toggleDrawer(false)"></div>
+<div id="card-drawer" class="win-outset">
+  <div class="title-bar">
+    <span>📂 カード目録 (全22枚)</span>
+    <button class="title-btn" onclick="toggleDrawer(false)">×</button>
+  </div>
+  <div style="padding: 4px;">
+    <input type="text" id="filter-input" placeholder="カード名・役割で検索..." style="width: 100%; font-size: 11px;" oninput="renderCardList()">
+  </div>
+  <div class="drawer-list win-inset" id="drawer-card-list"></div>
+</div>
+
+<div id="app-window" class="win-outset">
+  <div class="title-bar">
+    <span>💧 水属性カード完全接続大辞典 (Water Codex 98)</span>
+    <div class="title-bar-controls">
+      <button class="title-btn" onclick="toggleDrawer()">目</button>
+      <button class="title-btn" onclick="showHelp()">？</button>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button class="win-btn" id="btn-back" onclick="historyBack()" disabled>← 戻る</button>
+    <button class="win-btn" id="btn-forward" onclick="historyForward()" disabled>進む →</button>
+    <div class="breadcrumb-box win-inset" id="breadcrumb-bar">
+      <span>履歴: </span>
+    </div>
+  </div>
+
+  <div id="main-viewport">
+    <div class="card-sheet win-outset" id="card-detail-view">
+      <!-- Card Detail Area -->
+    </div>
+  </div>
+
+  <div class="taskbar">
+    <button class="win-btn start-btn" onclick="toggleDrawer()">
+      <span style="color:#000080; font-size:14px;">🗂</span> カード一覧
+    </button>
+    <div class="status-area win-inset" id="status-bar-text">準備完了</div>
+  </div>
+</div>
+
+<script>
+const CARDS = {
+  33814470: {
+    id: 33814470,
+    name: "深海のディーヴァ",
+    kana: "しんかいのディーヴァ",
+    type: "海竜族 / チューナー / 効果",
+    attr: "水", lv: "★2", atk: 200, def: 400,
+    category: "初動召喚",
+    text: "①：このカードが召喚に成功した時に発動できる。デッキからレベル３以下の海竜族モンスター１体を特殊召喚する。",
+    role: "水属性の絶対的起点。召喚権を使うだけでデッキから相棒（ネプトアビスや重装兵）を直接引きずり出し、瞬時に2体分のリソースとしてS・X・リンク召喚を起動する万能召喚士。",
+    destination: "【王道初動】ディーヴァ召喚 ➔ ネプトアビス呼出 ➔ 竜騎隊墓地送りで2重サーチ ➔ アネモネで完全展開\n【先攻制圧到達】墓地水属性5体ジャスト調整から《氷霊神ムーラングレイス》（2ハンデス）＋《深淵に潜む者》（墓地完全封鎖）\n【後攻ワンキル到達】アネモネ経由《世海龍ジーランティス》で相手の非水属性モンスターを全消滅させて8000LP直接削り切り",
+    rules: "・通常召喚時のみ発動（特殊召喚では不発）。\n・手札誘発《無限泡影》等を食らった場合でも、素材として墓地へ送ればムーラングレイスの墓地水属性カウント（1体分）として数えられる。",
+    connections: [
+      { id: 47346782, tag: "呼出", name: "海皇子 ネプトアビス", desc: "最優先リクルート先。デッキから竜騎隊を落としてWサーチ" },
+      { id: 37744402, tag: "呼出", name: "海皇の重装兵", desc: "召喚権を+1追加し、ディーヴァへの無効妨害を貫通" },
+      { id: 23002294, tag: "呼出", name: "海皇の狙撃兵", desc: "Lv3海竜族。プリマドーナ（Lv7シンクロ）へ直行" },
+      { id: 40908371, tag: "素材", name: "海晶乙女コーラルアネモネ", desc: "水属性2体で直ちにリンク召喚" }
+    ]
+  },
+  47346782: {
+    id: 47346782,
+    name: "海皇子 ネプトアビス",
+    kana: "かいおうし ネプトアビス",
+    type: "海竜族 / 効果",
+    attr: "水", lv: "★1", atk: 800, def: 0,
+    category: "核・初動",
+    text: "「海皇子 ネプトアビス」の①②の効果はそれぞれ１ターンに１度しか使用できない。①：デッキから「海皇子 ネプトアビス」以外の「海皇」モンスター１体を墓地へ送って発動できる。デッキから「海皇子 ネプトアビス」以外の「海皇」カード１枚を手札に加える。②：このカードが水属性モンスターの効果を発動するために墓地へ送られた場合、「海皇子 ネプトアビス」以外の自分の墓地の「海皇」モンスター１体を対象として発動する。そのモンスターを特殊召喚する。",
+    role: "水属性最強のデッキ循環エンジン。デッキの海皇（竜騎隊）を墓地へ送る行為が『発動コスト』であるため、相手のうらら等を貫通しながら墓地誘発を連鎖起動させる。",
+    destination: "【即時2アド確定】効果起動で竜騎隊を落とし、海皇カードサーチ＋竜騎隊の海竜族サーチが同時発動。\n【ムーラングレイス直行】竜騎隊からムーラングレイスをサーチし、リンク展開で墓地5枚を作って着地。",
+    rules: "・【SEGOC（チェーン隠し）】竜騎隊を落とした時、チェーン1：竜騎隊（サーチ本命）、チェーン2：ネプトアビス（サーチ囮）と組むことで、相手の《灰流うらら》から竜騎隊を完全に守ることができる。",
+    connections: [
+      { id: 74311226, tag: "呼出", name: "海皇の竜騎隊", desc: "デッキからコストとして墓地へ落とし、サーチを誘発" },
+      { id: 40908371, tag: "素材", name: "海晶乙女コーラルアネモネ", desc: "アネモネで墓地から蘇生し、再度コストとして利用" },
+      { id: 4796100, tag: "目標", name: "氷霊神ムーラングレイス", desc: "サーチした海竜族から最優先で着地を目指す" }
+    ]
+  },
+  74311226: {
+    id: 74311226,
+    name: "海皇の竜騎隊",
+    kana: "かいおうのりゅうきたい",
+    type: "海竜族 / 効果",
+    attr: "水", lv: "★4", atk: 1800, def: 0,
+    category: "万能サーチ",
+    text: "①：このカードが水属性モンスターの効果を発動するために墓地へ送られた場合に発動する。デッキから「海皇の竜騎隊」以外の海竜族モンスター１体を手札に加える。",
+    role: "水属性の屋台骨。水属性モンスターの効果発動コストになるだけで、同名以外のあらゆる海竜族をサーチする。最大の強みは【同名ターン1制限が一切ない】こと。",
+    destination: "【連続サーチ】1ターンにネプトアビス、アネモネ蘇生、ディニクコストなどで3回墓地へ送れば、海竜族を3枚サーチ可能。\n【最終盤面】ムーラングレイス、ディーヴァ、ポセイドラ・アビスなどをすべて手札に引き込む。",
+    rules: "・【注意】サーチできるのは「海竜族」のみ。水精鱗の「水族」「魚族」はサーチできない点に注意。",
+    connections: [
+      { id: 4796100, tag: "目標", name: "氷霊神ムーラングレイス", desc: "最も強力なサーチ先（海竜族・Lv8）" },
+      { id: 33814470, tag: "目標", name: "深海のディーヴァ", desc: "次ターンのリソース、または追加展開用の召喚権" },
+      { id: 21082832, tag: "素材", name: "深淵に潜む者", desc: "Lv4×2でX召喚。X素材から落としてさらにサーチ" }
+    ]
+  },
+  37744402: {
+    id: 37744402,
+    name: "海皇の重装兵",
+    kana: "かいおうのじゅうそうへい",
+    type: "海竜族 / 効果",
+    attr: "水", lv: "★2", atk: 0, def: 1600,
+    category: "除去・召喚権追加",
+    text: "①：このカードがフィールドに表側表示で存在する限り、自分は通常召喚に加えて１度だけ、自分メインフェイズにレベル４以下の海竜族モンスター１体を召喚できる。②：このカードが水属性モンスターの効果を発動するために墓地へ送られた場合、相手フィールドの表側表示のカード１枚を対象として発動する。その相手の表側表示のカードを破壊する。",
+    role: "初動補助と盤面破壊のマルチロール。場にいれば召喚権を増やし、コストで墓地へ送られれば相手の表側カードを破壊する。後攻捲りの要。",
+    destination: "【後攻捲り】《禁じられた一滴》のコストにすることで、相手モンスターを無力化しつつ表側カードを1枚対象破壊。\n【誘発貫通】ディーヴァが止められた際に召喚権を追加してネプトアビスを着地させる。",
+    rules: "・召喚権追加はフィールドに表側表示で存在する場合のみ有効。\n・墓地破壊効果はダメージステップでも発動可能。",
+    connections: [
+      { id: 33814470, tag: "素材", name: "深海のディーヴァ", desc: "ディーヴァからリクルートして召喚権+1" },
+      { id: 22446869, tag: "素材", name: "水精鱗－ディニクアビス", desc: "手札コストにしてディニク特殊召喚＋相手盤面1枚破壊" }
+    ]
+  },
+  23002294: {
+    id: 23002294,
+    name: "海皇の狙撃兵",
+    kana: "かいおうのそげきへい",
+    type: "海竜族 / 効果",
+    attr: "水", lv: "★3", atk: 1400, def: 0,
+    category: "伏せ除去・Lv3",
+    text: "①：このカードが水属性モンスターの効果を発動するために墓地へ送られた場合、相手フィールドにセットされたカード１枚を対象として発動する。その相手のセットされたカードを破壊する。②：このカードが相手に戦闘ダメージを与えた時に発動できる。デッキから「海皇の狙撃兵」以外のレベル４以下の「海皇」海竜族モンスター１体を特殊召喚する。",
+    role: "相手のバック（伏せ罠・速攻魔法）を叩き割るスナイパー。レベル3のため、レベル2ディーヴァと合わせて即座にレベル5シンクロやプリマドーナの中継に使える。",
+    destination: "【バック破壊】コストで落とすことで、相手の警戒すべき伏せカードを事前に除去。\n【シンクロ中継】ディーヴァ＋狙撃兵で《深海姫プリマドーナ》をS召喚。",
+    rules: "・破壊対象はセット（裏側）カード限定。表側の永続罠やフィールド魔法は割れない（表側は重装兵が担当）。",
+    connections: [
+      { id: 85507811, tag: "素材", name: "深海姫プリマドーナ", desc: "ディーヴァ(Lv2)＋狙撃兵(Lv3)＋αでシンクロ" }
+    ]
+  },
+  22446869: {
+    id: 22446869,
+    name: "水精鱗－ディニクアビス",
+    kana: "マーメイル－ディニクアビス",
+    type: "水族 / 効果",
+    attr: "水", lv: "★7", atk: 1700, def: 2400,
+    category: "貫通・サーチ",
+    text: "①：手札からこのカード以外の水属性モンスター１体を墓地へ捨てて発動できる。このカードを手札から特殊召喚する。②：このカードの①の効果で特殊召喚に成功した時に発動できる。デッキからレベル４以下の「水精鱗」モンスター１体を手札に加える。",
+    role: "水属性が誇る最高の貫通札。召喚権を使わず手札から水属性を捨てて特殊召喚できるため、手札の竜騎隊や重装兵の効果を能動的に起動できる。",
+    destination: "【誘発貫通】ディーヴァ召喚を止められた後にディニクを特殊召喚し、ランク7《海皇龍神 ポセイドラ・アビス》へ接続。\n【打点形成】自身の高ステータスとサーチ先でワンキル打点を供給。",
+    rules: "・手札を捨てる行為は「コスト」。よって海皇モンスターの効果は全て正常に誘発する。",
+    connections: [
+      { id: 74311226, tag: "素材", name: "海皇の竜騎隊", desc: "手札コストにしてディニク召喚＋海竜族サーチ" },
+      { id: 98110001, tag: "目標", name: "海皇龍神 ポセイドラ・アビス", desc: "Lv7同士でランク7X召喚" }
+    ]
+  },
+  98110001: {
+    id: 98110001,
+    name: "海皇龍神 ポセイドラ・アビス",
+    kana: "かいおうりゅうしん ポセイドラ・アビス",
+    type: "海竜族 / エクシーズ / 効果",
+    attr: "水", lv: "Rank 7", atk: 3000, def: 2500,
+    category: "デッキ墓地送り・大量バウンス",
+    text: "レベル７モンスター×２体以上\n①：このカードのＸ素材を１つ取り除いて発動できる。デッキから「海皇」または「水精鱗」モンスター１体を墓地へ送る。その後、相手フィールドのカードを３枚まで選んで持ち主の手札に戻すことができる。②：このカードが破壊された場合に発動できる。自分の墓地から「海皇」または「水精鱗」モンスター１体を特殊召喚する。",
+    role: "海皇水精鱗の絶対的重戦車。デッキから直接海皇を墓地へ送りながら、対象を取らずに相手盤面を最大3枚バウンスする圧倒的な突破力を持つ。",
+    destination: "【後攻捲り最強】耐性持ちのモンスターやバックを対象を取らずに3枚バウンスし、墓地へ落とした重装兵・竜騎隊でさらなる除去と追撃を敢行。",
+    rules: "・バウンスは「対象を取らない」。\n・デッキから墓地へ送る処理とバウンス処理が連動するため、相手の妨害を踏み越えやすい。",
+    connections: [
+      { id: 22446869, tag: "素材", name: "水精鱗－ディニクアビス", desc: "Lv7素材としてX召喚" }
+    ]
+  },
+  80604091: {
+    id: 80604091,
+    name: "氷結界の鏡魔師",
+    kana: "ひょうけっかいのミラーマスター",
+    type: "水族 / チューナー / 効果",
+    attr: "水", lv: "★2", atk: 1000, def: 400,
+    category: "トークン生成・S縛り",
+    text: "①：自分フィールドの他の効果モンスター１体をリリースして発動できる。そのモンスターのレベルの数まで、自分フィールドに「氷結界トークン」（水族・水・星１・攻／守０）を特殊召喚し、その数だけこのカードのレベルを上げる。このターン、自分は水属性ＳモンスターしかＥＸデッキから特殊召喚できない。②：このカードが墓地へ送られた場合に発動できる。デッキから「氷結界の鏡魔師」以外の「氷結界」カード１枚を手札に加える。",
+    role: "氷結界ギミックの核。レベルに応じたトークンを大量生成し、高レベルシンクロを一瞬で組み上げる。墓地へ送られた場合のサーチも強力。",
+    destination: "【高レベルS直行】トークン生成から《氷結界の還零龍 トリシューラ》（Lv11）や《相剣大公－承影》（Lv10）へ1枚で直行。",
+    rules: "・【自縛のタイムライン】効果を使うと『このターン、水属性SモンスターしかEXデッキから出せない』制約がつく。発動前にリンクやエクシーズを出し終えておく必要がある。",
+    connections: [
+      { id: 3569990, tag: "目標", name: "氷結界の還零龍 トリシューラ", desc: "トークンと鏡魔師でLv11シンクロへ到達" },
+      { id: 33550694, tag: "目標", name: "相剣大公－承影", desc: "Lv10シンクロフィニッシャーへ" }
+    ]
+  },
+  47805931: {
+    id: 47805931,
+    name: "氷結界の虎王 ドゥローレン",
+    kana: "ひょうけっかいのことらおう ドゥローレン",
+    type: "獣族 / シンクロ / 効果",
+    attr: "水", lv: "★6", atk: 2000, def: 1400,
+    category: "セルフバウンス",
+    text: "チューナー＋チューナー以外の水属性モンスター１体以上\nこのカード名の効果は１ターンに１度しか使用できない。①：このカード以外の自分フィールドの表側表示のカードを任意の数だけ対象として発動できる。そのカードを手札に戻す。このカードの攻撃力はターン終了時まで、この効果で手札に戻ったカードの数×５００アップする。",
+    role: "自分の場の表側カードを手札に戻して再利用するコンボの達人。発動済みの永続魔法やモンスターを回収して使い回す。",
+    destination: "【リソース無限回収】1ターンに何度も使いたいフィールド魔法や永続魔法を手札に戻して再発動し、アドバンテージを爆発させる。",
+    rules: "・エラッタにより同名ターン1制限がついたが、依然としてコンボ性能は非常に高い。",
+    connections: [
+      { id: 85507811, tag: "素材", name: "深海姫プリマドーナ", desc: "Lv7シンクロへの足がかり" }
+    ]
+  },
+  85507811: {
+    id: 85507811,
+    name: "深海姫プリマドーナ",
+    kana: "しんかいきプリマドーナ",
+    type: "海竜族 / シンクロ / チューナー / 効果",
+    attr: "水", lv: "★7", atk: 1500, def: 2700,
+    category: "中継Sチューナー",
+    text: "チューナー＋チューナー以外のモンスター１体以上\nこのカード名の①②の効果はそれぞれ１ターンに１度しか使用できない。①：除外されている相手のカード１枚を対象として発動できる。デッキからレベル４以下の水属性モンスター１体を手札に加えるか特殊召喚し、対象のカードを相手の手札に加える。②：このカードがＳ素材として墓地へ送られた場合、自分フィールドのＳモンスター１体を対象として発動できる。そのモンスターは相手の効果の対象にならない。",
+    role: "相手の除外カードを代償に、デッキから水属性を直接リクルートする超強力中継シンクロ。S素材になれば味方に強固な対象耐性を付与する。",
+    destination: "【Lv10シンクロ到達】デッキから任意のレベル3〜4をリクルートし、自身(Lv7チューナー)と合わせて《相剣大公－承影》や《氷水啼エジル・ギュミル》を着地させる。",
+    rules: "・相手の除外カードが1枚も存在しない場合は①の効果を発動できない点に注意（白闘気や墓穴で事前に除外を作るのがコツ）。",
+    connections: [
+      { id: 33550694, tag: "目標", name: "相剣大公－承影", desc: "Lv7プリマドーナ＋Lv3でLv10シンクロ" },
+      { id: 62241001, tag: "目標", name: "氷水啼エジル・ギュミル", desc: "Lv10完全耐性シンクロへ接続" }
+    ]
+  },
+  62241001: {
+    id: 62241001,
+    name: "氷水啼エジル・ギュミル",
+    kana: "イニエ・エジル・ギュミル",
+    type: "水族 / シンクロ / 効果",
+    attr: "水", lv: "★10", atk: 3000, def: 1500,
+    category: "自軍完全耐性・同名全除外",
+    text: "水属性チューナー＋チューナー以外のモンスター１体以上\nこのカード名の①②の効果はそれぞれ１ターンに１度しか使用できない。①：相手が効果を発動した時に発動できる。このターン、自分フィールドの表側表示モンスターは相手の効果では破壊されず、相手の効果では除外されない。その相手の効果の発動にチェーンしてこの効果を発動し、相手フィールド・墓地に同名カードが存在する場合、さらにそれらの同名カードを全て除外できる。",
+    role: "水属性屈指の鉄壁守護神。フリーチェーンで自軍全体に「破壊耐性＋除外耐性」を与えつつ、相手のキーカードをフィールド・墓地から根こそぎ消滅させる。",
+    destination: "【先攻エンド盤面】サンダーボルトや羽箒、モンスター除去を完全に弾き返し、返しのターンに3000打点で追撃。",
+    rules: "・効果発動にチェーンして発動した場合のみ「同名カード全除外」の追加処理が発生する。",
+    connections: [
+      { id: 85507811, tag: "素材", name: "深海姫プリマドーナ", desc: "Lv7Sチューナーから直行" }
+    ]
+  },
+  4796100: {
+    id: 4796100,
+    name: "氷霊神ムーラングレイス",
+    kana: "ひょうれいしんムーラングレイス",
+    type: "海竜族 / 特殊召喚 / 効果",
+    attr: "水", lv: "★8", atk: 2800, def: 2200,
+    category: "先攻制圧・2ハンデス",
+    text: "このカードは通常召喚できない。自分の墓地の水属性モンスターが５体の場合のみ特殊召喚できる。このカード名の①の効果は１ターンに１度しか使用できない。①：このカードが特殊召喚に成功した場合に発動する。相手の手札をランダムに２枚選んで捨てる。②：表側表示のこのカードがフィールドから離れた場合、次の自分ターンのバトルフェイズをスキップする。",
+    role: "水属性の先攻制圧の象徴。特殊召喚するだけで相手の手札をランダムに2枚墓地へ叩き落とし、相手の捲りプランを根底から粉砕する。",
+    destination: "【先攻完全制圧】2ハンデスで相手のリソースを枯らした後、横に《深淵に潜む者》を添えて相手の墓地発動も封殺して完全勝利を確定させる。",
+    rules: "・【墓地5体ジャストの物理学】墓地が4体でも6体でも出せない。コーラルアネモネで1体蘇生して減らす、あるいはリンク素材にして増やすことで意図的に「ちょうど5体」に調整する技術が必須。",
+    connections: [
+      { id: 74311226, tag: "素材", name: "海皇の竜騎隊", desc: "海竜族のため竜騎隊から直接サーチ可能" },
+      { id: 40908371, tag: "素材", name: "海晶乙女コーラルアネモネ", desc: "墓地の水属性を1体釣り上げて「墓地5体」に微調整" }
+    ]
+  },
+  21082832: {
+    id: 21082832,
+    name: "深淵に潜む者",
+    kana: "しんえんにひそむもの",
+    type: "海竜族 / エクシーズ / 効果",
+    attr: "水", lv: "Rank 4", atk: 1700, def: 1400,
+    category: "墓地完全停止",
+    text: "レベル４モンスター×２\n①：このカードが水属性モンスターをＸ素材としている場合、自分フィールドの水属性モンスターの攻撃力は５００アップする。②：自分・相手ターンに１度、このカードのＸ素材を１つ取り除いて発動できる。このターン、相手は墓地のカードの効果を発動できない。",
+    role: "現環境のあらゆる墓地利用テーマを機能停止に追い込む最強の置物。フリーチェーンで相手の墓地効果を完全シャットアウトする。",
+    destination: "【先攻エンド盤面】竜騎隊をX素材にしておき、相手ドローフェイズに即起動。墓地を止めながら取り除いた竜騎隊でサーチを連鎖させる。",
+    rules: "・水属性素材を持つと自軍全体がATK+500。自身も実質2200打点になる。\n・自分のターン中にあらかじめ発動しておけば、相手の墓地誘発や破壊時誘発も封殺できる。",
+    connections: [
+      { id: 74311226, tag: "素材", name: "海皇の竜騎隊", desc: "X素材にして効果起動時に取り除いてサーチ" }
+    ]
+  },
+  40908371: {
+    id: 40908371,
+    name: "海晶乙女コーラルアネモネ",
+    kana: "マリンセス コーラルアネモネ",
+    type: "サイバース族 / リンク / 効果",
+    attr: "水", lv: "Link-2", atk: 2000, def: "—",
+    category: "中継・墓地蘇生",
+    text: "水属性モンスター２体\nこのカード名の①②の効果はそれぞれ１ターンに１度しか使用できない。①：自分の墓地の攻撃力１５００以下の水属性モンスター１体を対象として発動できる。そのモンスターをこのカードのリンク先となる自分フィールドに特殊召喚する。この効果の発動後、ターン終了時まで自分は水属性モンスターしか特殊召喚できない。②：このカードがフィールドから墓地へ送られた場合、「海晶乙女コーラルアネモネ」以外の自分の墓地の「マリンセス」カード１枚を対象として発動できる。そのカードを手札に加える。",
+    role: "水属性展開の中核リンク。攻撃力1500以下の水属性を無条件蘇生し、さらなる高リンクやシンクロへ繋ぐ。",
+    destination: "【ジーランティス消滅コンボ】アネモネの水属性縛りをつけた状態でジーランティスを出すことで、相手の非水属性モンスターを全消滅させる。\n【ムーラングレイス調整】墓地の枚数を1体減らして5体に合わせる。",
+    rules: "・【自縛ルール】『効果の発動後』水属性しか出せなくなる。アネモネ効果を使う前であれば他属性モンスター（リトルナイト等）を出すことが可能。",
+    connections: [
+      { id: 72402069, tag: "目標", name: "世海龍ジーランティス", desc: "アネモネの水縛りを利用して相手盤面を全消滅" },
+      { id: 47346782, tag: "素材", name: "海皇子 ネプトアビス", desc: "墓地のネプトを蘇生して再起動" }
+    ]
+  },
+  71200730: {
+    id: 71200730,
+    name: "No.4 猛毒刺胞ステルス・クラーゲン",
+    kana: "ステルス・クラーゲン",
+    type: "水族 / エクシーズ / 効果",
+    attr: "水", lv: "Rank 4", atk: 1900, def: 1500,
+    category: "属性強制・フリーチェーン破壊",
+    text: "水属性レベル４モンスター×２\n①：フィールドの表側表示モンスターは水属性になる。②：１ターンに１度、自分・相手のメインフェイズに発動できる。相手フィールドの水属性モンスター１体を選んで破壊し、その攻撃力の半分のダメージを相手に与える。③：Ｘ召喚したこのカードが破壊された場合に発動できる。このカードが持っていたＸ素材の数まで、ＥＸデッキから「ステルス・クラーゲン・エフィス」を特殊召喚する。",
+    role: "フィールドの全モンスターを強制的に水属性に書き換える。相手の素材指定（闇属性指定、光属性指定など）を崩壊させつつ、フリチェ除去を撃ち込む。",
+    destination: "【妥協制圧】増殖するGを食らった際に最小手数の2体で立ててエンドし、相手の展開を属性ルールで妨害する。",
+    rules: "・対象を取らない破壊。\n・破壊されても後続のクラゲトークン（エフィス）が2体分裂して湧き出るため場持ちが極めて良い。",
+    connections: [
+      { id: 74311226, tag: "素材", name: "海皇の竜騎隊", desc: "Lv4×2でX召喚" }
+    ]
+  },
+  72402069: {
+    id: 72402069,
+    name: "世海龍ジーランティス",
+    kana: "せかいりゅうジーランティス",
+    type: "海竜族 / リンク / 効果",
+    attr: "水", lv: "Link-4", atk: 2500, def: "—",
+    category: "後攻捲り・全消滅",
+    text: "効果モンスター１体以上\nこのカード名の②③の効果はそれぞれ１ターンに１度しか使用できない。①：「世海龍ジーランティス」は自分フィールドに１体しか表側表示で存在できない。②：自分メインフェイズに発動できる。フィールドのモンスターを全て除外する。その後、この効果で除外したモンスターを可能な限り元々の持ち主のフィールドに表側表示または裏側守備表示で特殊召喚する。③：自分・相手のバトルフェイズに発動できる。フィールドのカードを２枚まで選んで破壊する。",
+    role: "現代遊戯王屈指のバグ級全体除去。全モンスターを除外して戻す際、自分に特殊召喚制限があると相手モンスターが帰還不能になるルールを悪用する。",
+    destination: "【完全消滅OTK】コーラルアネモネ発動後に出すことで、相手の非水属性モンスターを1体残らず除外消滅させ、更地にして8000LPを削り倒す。",
+    rules: "・【ルール裁定の急所】ジーランティスを出す前に《コーラルアネモネ》の効果を使っておくこと。特殊召喚を行う主体が自分であるため、相手の場のモンスターであっても水属性以外は特殊召喚できず、除外されたまま消滅する。",
+    connections: [
+      { id: 40908371, tag: "素材", name: "海晶乙女コーラルアネモネ", desc: "事前に水属性特殊召喚縛りを自身にかける必須相棒" },
+      { id: 33550694, tag: "素材", name: "相剣大公－承影", desc: "全体除外に反応して承影の盤面除外が誘発" }
+    ]
+  },
+  33550694: {
+    id: 33550694,
+    name: "相剣大公－承影",
+    kana: "そうけんだいこう－ショウエイ",
+    type: "幻竜族 / シンクロ / 効果",
+    attr: "水", lv: "★10", atk: 3000, def: 3000,
+    category: "打点デバフ・非対象除外",
+    text: "チューナー＋チューナー以外のモンスター１体以上\nこのカード名の③の効果は１ターンに１度しか使用できない。①：除外されているカードの数×１００だけ、このカードの攻撃力・守備力はアップし、相手フィールドのモンスターの攻撃力・守備力はダウンする。②：このカードが効果で破壊される場合、代わりに自分の墓地のカード１枚を除外できる。③：カードが除外された場合に発動できる。相手のフィールド及び墓地のカードをそれぞれ１枚ずつ選んで除外する。",
+    role: "水属性の誇る超打点フィニッシャー。除外枚数に応じて相手全体を弱体化させつつ自身をパンプ。カードが除外された瞬間に盤面と墓地を同時に消し去る。",
+    destination: "【後攻ワンパン】除外ゾーンが肥えた状態で攻撃力4000超となり、相手モンスターを弱体化させて大ダメージを与えて即死させる。",
+    rules: "・③の効果は「対象を取らない」除外。破壊耐性も対象耐性もすべて貫通する。",
+    connections: [
+      { id: 85507811, tag: "素材", name: "深海姫プリマドーナ", desc: "Lv7プリマドーナ＋Lv3でS召喚" },
+      { id: 72402069, tag: "素材", name: "世海龍ジーランティス", desc: "ジーランティスの全体除外で承影の除外効果が即座に誘発" }
+    ]
+  },
+  3569990: {
+    id: 3569990,
+    name: "氷結界の還零龍 トリシューラ",
+    kana: "ひょうけっかいのかんれいりゅう トリシューラ",
+    type: "ドラゴン族 / シンクロ / 効果",
+    attr: "水", lv: "★11", atk: 2700, def: 2000,
+    category: "3枚除外・全体無力化",
+    text: "チューナー＋チューナー以外のモンスター２体以上\nこのカード名の①の効果は１ターンに１度しか使用できない。①：このカードがＳ召喚に成功した時に発動できる。相手フィールドのカードを３枚まで選んで除外する。②：Ｓ召喚したこのカードが相手によって破壊された場合に発動できる。自分のＥＸデッキ・墓地から「氷結界の龍 トリシューラ」１体を、攻撃力を３３００にして特殊召喚する。相手フィールドに表側表示モンスターが存在する場合、さらにそれらのモンスターの攻撃力は半分になり、効果は無効化される。",
+    role: "対象を取らない3枚完全除外。さらに破壊されても後続のトリシューラが3300打点で降臨し相手全体を無力化する理不尽な死に際効果を持つ。",
+    destination: "【盤面崩壊】後攻から着地させて相手の制圧モンスターや妨害置物を3枚根こそぎ消し去り、そのまま総攻撃でフィニッシュする。",
+    rules: "・召喚条件は「チューナー以外のモンスター2体以上」であるため、合計3体以上の素材が必要。",
+    connections: [
+      { id: 80604091, tag: "素材", name: "氷結界の鏡魔師", desc: "鏡魔師のトークン生成から一瞬でLv11を成立" }
+    ]
+  },
+  88307361: {
+    id: 88307361,
+    name: "超古深海王シーラカンス",
+    kana: "ちょうこしんかいおうシーラカンス",
+    type: "魚族 / 効果",
+    attr: "水", lv: "★7", atk: 2800, def: 2200,
+    category: "大量展開・魚族の神",
+    text: "①：１ターンに１度、手札を１枚捨てて発動できる。デッキからレベル４以下の魚族モンスターを可能な限り特殊召喚する（同名カードは１枚まで）。この効果で特殊召喚したモンスターは攻撃宣言できず、効果は無効化される。②：フィールドのこのカードを対象とする魔法・罠・モンスターの効果が発動した時、このカード以外の自分フィールドの魚族モンスター１体をリリースして発動できる。その効果を無効にし破壊する。",
+    role: "魚族水属性の絶対神。手札を1枚捨てるだけでデッキから魚族を4体一気に呼び出し、無限のリンク・シンクロ展開を可能にする。",
+    destination: "【1キル盤面確定】呼び出した魚族からリンク・シンクロを連打し、1ターンで10,000以上の総打点を叩き出す。",
+    rules: "・手札を捨てるのは効果ではなく「コスト」。\n・特殊召喚したモンスターの効果は無効化されるが、墓地へ送られた時の効果は通常通り発動可能。",
+    connections: [
+      { id: 40908371, tag: "素材", name: "海晶乙女コーラルアネモネ", desc: "素材展開の中継点" }
+    ]
+  },
+  68400115: {
+    id: 68400115,
+    name: "水霊術－「葵」",
+    kana: "すいれいじゅつ－あおい",
+    type: "通常罠",
+    attr: "罠", lv: "—", atk: "—", def: "—",
+    category: "ピーピングハンデス",
+    text: "①：自分フィールドの水属性モンスター１体をリリースして発動できる。相手の手札を確認し、その中からカード１枚を選んで墓地へ送る。",
+    role: "相手の手札を全て覗き見た上で、一番危険なカードを墓地へ送るピーピングハンデス。相手の捲りプラン（超融合やサンダーボルト等）を確実に摘み取る。",
+    destination: "【先攻詰み】ムーラングレイスの2ハンデス後に発動し、残った手札から回答を完全に消し去ってゲームエンドに持ち込む。",
+    rules: "・リリースするのはコスト。\n・相手の手札を公開情報にするため、相手が構えている手札誘発の種類も完全に把握できる。",
+    connections: [
+      { id: 4796100, tag: "目標", name: "氷霊神ムーラングレイス", desc: "2ハンデスと組み合わせて相手手札を壊滅" }
+    ]
+  },
+  56888001: {
+    id: 56888001,
+    name: "深海レペティティス",
+    kana: "しんかいレペティティス",
+    type: "海竜族 / シンクロ / チューナー / 効果",
+    attr: "水", lv: "★5", atk: 1500, def: 2700,
+    category: "中継S・相手墓地除外",
+    text: "「深海のディーヴァ」＋チューナー以外のモンスター１体以上\nこのカード名の①②の効果はそれぞれ１ターンに１度しか使用できない。①：このカードがＳ召喚に成功した場合、相手の墓地のカード１枚を対象として発動できる。そのカードを除外する。②：このカードが墓地へ送られた場合、自分の墓地のレベル４以下の水属性モンスター１体を対象として発動できる。そのモンスターを手札に加える。",
+    role: "ディーヴァから直行できるレベル5Sチューナー。プリマドーナの条件となる「相手の除外カード」を自力で作り出す完璧な架け橋。",
+    destination: "【プリマドーナ起動】相手の墓地を除外してプリマドーナの特殊召喚効果を100%確実にアクティブ化する。",
+    rules: "・シンクロ素材に「深海のディーヴァ」の指定がある点に注意。",
+    connections: [
+      { id: 33814470, tag: "素材", name: "深海のディーヴァ", desc: "素材指定チューナー" },
+      { id: 85507811, tag: "目標", name: "深海姫プリマドーナ", desc: "除外を作ってプリマドーナの効果を確実起動" }
+    ]
+  },
+  42001001: {
+    id: 42001001,
+    name: "水精鱗－アビスパイク",
+    kana: "マーメイル－アビスパイク",
+    type: "魚族 / 効果",
+    attr: "水", lv: "★4", atk: 1600, def: 800,
+    category: "初動サーチ・海皇起動",
+    text: "①：このカードが召喚・特殊召喚に成功した時、手札から水属性モンスター１体を墓地へ捨てて発動できる。デッキからレベル３以下の水属性モンスター１体を手札に加える。",
+    role: "手札の海皇をコストとして捨てながら、ディーヴァや重装兵、狙撃兵をピンポイントでサーチする万能リクルーター。",
+    destination: "【ディーヴァ確保】手札の重装兵を捨てて相手盤面を破壊しつつ、次ターンの核となる《深海のディーヴァ》を確実に引き込む。",
+    rules: "・捨てるのはコスト。海皇の効果が綺麗に誘発する。",
+    connections: [
+      { id: 33814470, tag: "目標", name: "深海のディーヴァ", desc: "デッキから手札に加える" },
+      { id: 74311226, tag: "素材", name: "海皇の竜騎隊", desc: "手札コストにして海竜族サーチ" }
+    ]
+  }
+};
+
+let currentCardId = 33814470;
+let historyStack = [33814470];
+let historyIndex = 0;
+
+// IndexedDB Storage to hold Base64 of real cards locally
+let db;
+const request = indexedDB.open("YugiohWaterCodexDB", 1);
+request.onupgradeneeded = (e) => {
+  db = e.target.result;
+  if (!db.objectStoreNames.contains("card_images")) {
+    db.createObjectStore("card_images");
+  }
+};
+request.onsuccess = (e) => {
+  db = e.target.result;
+  loadCachedImage(currentCardId);
+};
+
+function getLocalStoredImage(id, callback) {
+  if (!db) { callback(null); return; }
+  try {
+    const tx = db.transaction("card_images", "readonly");
+    const store = tx.objectStore("card_images");
+    const getReq = store.get(id);
+    getReq.onsuccess = () => {
+      callback(getReq.result || null);
+    };
+    getReq.onerror = () => callback(null);
+  } catch(e) { callback(null); }
+}
+
+function saveLocalStoredImage(id, base64Data) {
+  if (!db) return;
+  try {
+    const tx = db.transaction("card_images", "readwrite");
+    const store = tx.objectStore("card_images");
+    store.put(base64Data, id);
+  } catch(e) {}
+}
+
+function renderCard(id, recordHistory = true) {
+  const card = CARDS[id];
+  if (!card) return;
+  currentCardId = id;
+
+  if (recordHistory) {
+    if (historyStack[historyIndex] !== id) {
+      historyStack = historyStack.slice(0, historyIndex + 1);
+      historyStack.push(id);
+      historyIndex = historyStack.length - 1;
+    }
+  }
+
+  updateHistoryUI();
+
+  const detailEl = document.getElementById("card-detail-view");
+
+  detailEl.innerHTML = `
+    <div class="card-header-bar">
+      <div>
+        <span class="card-title-jp">${card.name}</span>
+        <span class="card-kana">[${card.kana}]</span>
+      </div>
+      <span class="card-code">No.${Object.keys(CARDS).indexOf(id.toString()) + 1}</span>
+    </div>
+
+    <!-- Official Real Artwork Display with Offline Store Cache -->
+    <div class="card-stage-container">
+      <img id="card-img-element" class="official-card-img" 
+           src="https://images.weserv.nl/?url=images.ygoprodeck.com/images/cards/${id}.jpg" onerror="this.onerror=null; this.src='https://wsrv.nl/?url=images.ygoprodeck.com/images/cards/' + id + '.jpg';" 
+           alt="${card.name}"
+           referrerpolicy="no-referrer"
+           crossorigin="anonymous">
+      <div class="img-control-bar">
+        <span class="img-badge" id="img-status-label">KONAMI公式実物画像</span>
+        <input type="file" id="local-file-picker" accept="image/*" style="display:none;" onchange="handleUserManualImage(event, ${id})">
+        <button class="win-btn" style="font-size:10px;" onclick="document.getElementById('local-file-picker').click()">📁 画像指定</button>
+        <button class="win-btn" style="font-size:10px;" onclick="forceFetchOnlineImage(${id})">🌐 ネットから取得</button>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <span>【${card.type}】</span>
+      <span>${card.lv} / 属性: [${card.attr}]</span>
+      <span>攻${card.atk} / 守${card.def}</span>
+    </div>
+
+    <div class="official-text-box">
+      ${card.text}
+    </div>
+
+    <div class="section-box box-role win-inset">
+      <div class="section-title">💡 どういったカードなのか？ (役割と本質)</div>
+      <div style="line-height:1.45;">${card.role}</div>
+      <div style="margin-top:4px; font-size:11px; color:#444;">
+        <strong>分類:</strong> ${card.category}
+      </div>
+    </div>
+
+    <div class="section-box box-dest win-inset">
+      <div class="section-title">🏁 どこまで盤面を持ってけるか？ (到達最終盤面)</div>
+      <div style="line-height:1.55; white-space:pre-line;">${card.destination}</div>
+    </div>
+
+    <div class="section-box box-rule win-inset">
+      <div class="section-title">⚖️ 実戦裁定・運用の急所</div>
+      <div style="line-height:1.45; white-space:pre-line;">${card.rules}</div>
+    </div>
+
+    <div class="section-box win-inset" style="background:#fcfcfc;">
+      <div class="section-title">🔗 接続ネットワーク (タップしてジャンプ)</div>
+      <div class="network-grid">
+        ${card.connections.map(c => `
+          <button class="connect-link-btn" onclick="jumpToCard(${c.id})">
+            <span class="tag-${c.tag === '呼出' ? 'call' : c.tag === '目標' ? 'dest' : 'mat'}">${c.tag}</span>
+            <div style="flex:1;">
+              <strong>${c.name}</strong>
+              <div style="font-size:11px; color:#555;">${c.desc}</div>
+            </div>
+            <span style="font-size:14px; color:#000080;">➔</span>
+          </button>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  document.getElementById("status-bar-text").innerText = `表示中: ${card.name} [${card.category}]`;
+  document.getElementById("main-viewport").scrollTop = 0;
+  loadCachedImage(id);
+  renderCardList();
+}
+
+function loadCachedImage(id) {
+  getLocalStoredImage(id, (cachedData) => {
+    const imgEl = document.getElementById("card-img-element");
+    const labelEl = document.getElementById("img-status-label");
+    if (cachedData && imgEl) {
+      imgEl.src = cachedData;
+      if (labelEl) labelEl.innerText = "💾 端末内キャッシュ表示中 (完全オフライン)";
+    }
+  });
+}
+
+function handleUserManualImage(event, id) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const b64 = e.target.result;
+    saveLocalStoredImage(id, b64);
+    const imgEl = document.getElementById("card-img-element");
+    if (imgEl) imgEl.src = b64;
+    const labelEl = document.getElementById("img-status-label");
+    if (labelEl) labelEl.innerText = "💾 端末内保存完了";
+  };
+  reader.readAsDataURL(file);
+}
+
+function forceFetchOnlineImage(id) {
+  const imgEl = document.getElementById("card-img-element");
+  const labelEl = document.getElementById("img-status-label");
+  if (!imgEl) return;
+  labelEl.innerText = "取得中...";
+  const url = `https://wsrv.nl/?url=images.ygoprodeck.com/images/cards/${id}.jpg&output=jpg`;
+  
+  // Convert fetched image to Base64 and store in IndexedDB
+  const tempImg = new Image();
+  tempImg.crossOrigin = "anonymous";
+  tempImg.onload = () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = tempImg.naturalWidth;
+    canvas.height = tempImg.naturalHeight;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(tempImg, 0, 0);
+    const dataUrl = canvas.toDataURL("image/jpeg");
+    saveLocalStoredImage(id, dataUrl);
+    imgEl.src = dataUrl;
+    labelEl.innerText = "💾 端末内へ永久保存完了！";
+  };
+  tempImg.onerror = () => {
+    imgEl.src = `https://images.weserv.nl/?url=images.ygoprodeck.com/images/cards/${id}.jpg`;
+    labelEl.innerText = "プロキシ経由取得中";
+  };
+  tempImg.src = url;
+}
+
+function jumpToCard(id) {
+  renderCard(id, true);
+  toggleDrawer(false);
+}
+
+function historyBack() {
+  if (historyIndex > 0) {
+    historyIndex--;
+    renderCard(historyStack[historyIndex], false);
+  }
+}
+
+function historyForward() {
+  if (historyIndex < historyStack.length - 1) {
+    historyIndex++;
+    renderCard(historyStack[historyIndex], false);
+  }
+}
+
+function updateHistoryUI() {
+  document.getElementById("btn-back").disabled = (historyIndex <= 0);
+  document.getElementById("btn-forward").disabled = (historyIndex >= historyStack.length - 1);
+
+  const bar = document.getElementById("breadcrumb-bar");
+  bar.innerHTML = historyStack.map((id, idx) => {
+    const isCurrent = (idx === historyIndex);
+    return `<span class="crumb-link" style="${isCurrent ? 'font-weight:bold; color:#000; text-decoration:none;' : ''}" onclick="goToHistoryIdx(${idx})">${CARDS[id].name}</span>`;
+  }).join(' <span style="color:#888;">&gt;</span> ');
+  bar.scrollLeft = bar.scrollWidth;
+}
+
+function goToHistoryIdx(idx) {
+  historyIndex = idx;
+  renderCard(historyStack[historyIndex], false);
+}
+
+function toggleDrawer(forceState) {
+  const drawer = document.getElementById("card-drawer");
+  const backdrop = document.getElementById("drawer-backdrop");
+  const isOpen = (forceState !== undefined) ? forceState : !drawer.classList.contains("open");
+  if (isOpen) {
+    drawer.classList.add("open");
+    backdrop.style.display = "block";
+    renderCardList();
+  } else {
+    drawer.classList.remove("open");
+    backdrop.style.display = "none";
+  }
+}
+
+function renderCardList() {
+  const query = (document.getElementById("filter-input")?.value || "").toLowerCase();
+  const listEl = document.getElementById("drawer-card-list");
+  listEl.innerHTML = Object.values(CARDS)
+    .filter(c => c.name.toLowerCase().includes(query) || c.category.toLowerCase().includes(query) || c.kana.includes(query))
+    .map(c => `
+      <div class="drawer-item ${c.id === currentCardId ? 'active' : ''}" onclick="jumpToCard(${c.id})">
+        <span style="font-weight:bold;">${c.name}</span>
+        <span style="font-size:10px; opacity:0.8;">${c.type} / ${c.category}</span>
+      </div>
+    `).join('');
+}
+
+function showHelp() {
+  alert("【操作ガイド】\n・モード：本物のKONAMI公式カード画像レンダラー\n・「📁 画像指定」ボタンでスマホ内のお好きな公式実物カード画像を1枚指定すると、端末内DB（IndexedDB）に永久キャッシュされオフラインでも常時表示されます。\n・「🌐 ネットから取得」で公式画像を端末内に自動キャッシュ保存できます。");
+}
+
+window.onload = () => {
+  renderCard(currentCardId, false);
+};
+</script>
+</body>
+</html>
