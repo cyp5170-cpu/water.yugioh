@@ -317,6 +317,91 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  /* Card Type Responsive Theme Frames */
+  .card-sheet.frame-effect {
+    background: linear-gradient(180deg, #fffcf5 0%, #fff3e0 100%);
+    border-top: 4px solid #d97706;
+  }
+  .card-sheet.frame-effect .card-header-bar {
+    border-bottom: 2px solid #b45309;
+  }
+  .card-sheet.frame-effect .card-title-jp {
+    color: #92400e;
+  }
+
+  .card-sheet.frame-synchro {
+    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+    border-top: 4px solid #94a3b8;
+  }
+  .card-sheet.frame-synchro .card-header-bar {
+    border-bottom: 2px solid #64748b;
+  }
+  .card-sheet.frame-synchro .card-title-jp {
+    color: #334155;
+  }
+
+  .card-sheet.frame-xyz {
+    background: linear-gradient(180deg, #18181b 0%, #09090b 100%);
+    border-top: 4px solid #eab308;
+    color: #f4f4f5;
+  }
+  .card-sheet.frame-xyz .card-header-bar {
+    border-bottom: 2px solid #ca8a04;
+  }
+  .card-sheet.frame-xyz .card-title-jp {
+    color: #facc15;
+  }
+  .card-sheet.frame-xyz .card-kana, .card-sheet.frame-xyz .card-code {
+    color: #a1a1aa;
+  }
+  .card-sheet.frame-xyz .stats-grid {
+    background: #27272a;
+    border-color: #3f3f46;
+    color: #fef08a;
+  }
+  .card-sheet.frame-xyz .official-text-box {
+    background: #18181b;
+    border-color: #52525b;
+    color: #e4e4e7;
+  }
+  .card-sheet.frame-xyz .section-box {
+    color: #18181b;
+  }
+
+  .card-sheet.frame-link {
+    background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-top: 4px solid #0284c7;
+  }
+  .card-sheet.frame-link .card-header-bar {
+    border-bottom: 2px solid #0369a1;
+  }
+  .card-sheet.frame-link .card-title-jp {
+    color: #075985;
+  }
+
+  .card-sheet.frame-trap {
+    background: linear-gradient(180deg, #fdf2f8 0%, #fce7f3 100%);
+    border-top: 4px solid #db2777;
+  }
+  .card-sheet.frame-trap .card-header-bar {
+    border-bottom: 2px solid #be185d;
+  }
+  .card-sheet.frame-trap .card-title-jp {
+    color: #9d174d;
+  }
+
+  .card-sheet.frame-spell {
+    background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
+    border-top: 4px solid #16a34a;
+  }
+  .card-sheet.frame-spell .card-header-bar {
+    border-bottom: 2px solid #15803d;
+  }
+  .card-sheet.frame-spell .card-title-jp {
+    color: #166534;
+  }
+
 </style>
 </head>
 <body>
@@ -684,6 +769,16 @@ let currentCardId = 78868119;
 let historyStack = [78868119];
 let historyIndex = 0;
 
+
+function getCardFrameClass(type) {
+  if (type.includes("シンクロ")) return "frame-synchro";
+  if (type.includes("エクシーズ")) return "frame-xyz";
+  if (type.includes("リンク")) return "frame-link";
+  if (type.includes("魔法")) return "frame-spell";
+  if (type.includes("罠")) return "frame-trap";
+  return "frame-effect";
+}
+
 function renderCard(id, recordHistory = true) {
   const card = CARDS[id];
   if (!card) return;
@@ -700,6 +795,8 @@ function renderCard(id, recordHistory = true) {
   updateHistoryUI();
 
   const detailEl = document.getElementById("card-detail-view");
+  const frameClass = getCardFrameClass(card.type);
+  detailEl.className = `card-sheet win-outset ${frameClass}`;
 
   detailEl.innerHTML = `
     <div class="card-header-bar">
