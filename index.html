@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>水属性カード完全接続大辞典 (Water Codex 98 - 完全自己完結版)</title>
+<title>水属性カード完全接続大辞典 (Water Codex 98 Master)</title>
 <style>
   :root {
     --win-gray: #c0c0c0;
@@ -177,8 +177,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: #000;
-    padding: 8px;
+    background: #111;
+    padding: 10px;
     margin-bottom: 10px;
     border: 2px inset var(--win-dark);
     min-height: 380px;
@@ -188,8 +188,16 @@
     max-width: 100%;
     max-height: 380px;
     object-fit: contain;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.8);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
     display: block;
+  }
+  .img-badge {
+    margin-top: 6px;
+    font-size: 10px;
+    color: #aaa;
+    display: flex;
+    gap: 8px;
+    align-items: center;
   }
 
   .stats-grid {
@@ -365,9 +373,6 @@
 </div>
 
 <script>
-// Embed custom offline image storage directly
-const EMBEDDED_CARD_IMAGES = {};
-
 const CARDS = {
   33814470: {
     id: 33814470,
@@ -465,6 +470,7 @@ const CARDS = {
     rules: "・手札を捨てる行為は「コスト」。よって海皇モンスターの効果は全て正常に誘発する。",
     connections: [
       { id: 74311226, tag: "素材", name: "海皇の竜騎隊", desc: "手札コストにしてディニク召喚＋海竜族サーチ" },
+      { id: 37744402, tag: "素材", name: "海皇の重装兵", desc: "手札コストにしてディニク召喚＋相手盤面破壊" },
       { id: 98110001, tag: "目標", name: "海皇龍神 ポセイドラ・アビス", desc: "Lv7同士でランク7X召喚" }
     ]
   },
@@ -480,7 +486,70 @@ const CARDS = {
     destination: "【後攻捲り最強】耐性持ちのモンスターやバックを対象を取らずに3枚バウンスし、墓地へ落とした重装兵・竜騎隊でさらなる除去と追撃を敢行。",
     rules: "・バウンスは「対象を取らない」。\n・デッキから墓地へ送る処理とバウンス処理が連動するため、相手の妨害を踏み越えやすい。",
     connections: [
-      { id: 22446869, tag: "素材", name: "水精鱗－ディニクアビス", desc: "Lv7素材としてX召喚" }
+      { id: 22446869, tag: "素材", name: "水精鱗－ディニクアビス", desc: "Lv7素材としてX召喚" },
+      { id: 74311226, tag: "呼出", name: "海皇の竜騎隊", desc: "デッキから落としてサーチ誘発" }
+    ]
+  },
+  80604091: {
+    id: 80604091,
+    name: "氷結界の鏡魔師",
+    kana: "ひょうけっかいのミラーマスター",
+    type: "水族 / チューナー / 効果",
+    attr: "水", lv: "★2", atk: 1000, def: 400,
+    category: "トークン生成・S縛り",
+    text: "①：自分フィールドの他の効果モンスター１体をリリースして発動できる。そのモンスターのレベルの数まで、自分フィールドに「氷結界トークン」（水族・水・星１・攻／守０）を特殊召喚し、その数だけこのカードのレベルを上げる。このターン、自分は水属性ＳモンスターしかＥＸデッキから特殊召喚できない。②：このカードが墓地へ送られた場合に発動できる。デッキから「氷結界の鏡魔師」以外の「氷結界」カード１枚を手札に加える。",
+    role: "氷結界ギミックの核。レベルに応じたトークンを大量生成し、高レベルシンクロを一瞬で組み上げる。墓地へ送られた場合のサーチも強力。",
+    destination: "【高レベルS直行】トークン生成から《氷結界の還零龍 トリシューラ》（Lv11）や《相剣大公－承影》（Lv10）へ1枚で直行。",
+    rules: "・【自縛のタイムライン】効果を使うと『このターン、水属性SモンスターしかEXデッキから出せない』制約がつく。発動前にリンクやエクシーズを出し終えておく必要がある。",
+    connections: [
+      { id: 3569990, tag: "目標", name: "氷結界の還零龍 トリシューラ", desc: "トークンと鏡魔師でLv11シンクロへ到達" },
+      { id: 33550694, tag: "目標", name: "相剣大公－承影", desc: "Lv10シンクロフィニッシャーへ" }
+    ]
+  },
+  47805931: {
+    id: 47805931,
+    name: "氷結界の虎王 ドゥローレン",
+    kana: "ひょうけっかいのことらおう ドゥローレン",
+    type: "獣族 / シンクロ / 効果",
+    attr: "水", lv: "★6", atk: 2000, def: 1400,
+    category: "セルフバウンス",
+    text: "チューナー＋チューナー以外の水属性モンスター１体以上\nこのカード名の効果は１ターンに１度しか使用できない。①：このカード以外の自分フィールドの表側表示のカードを任意の数だけ対象として発動できる。そのカードを手札に戻す。このカードの攻撃力はターン終了時まで、この効果で手札に戻ったカードの数×５００アップする。",
+    role: "自分の場の表側カードを手札に戻して再利用するコンボの達人。発動済みの永続魔法やモンスターを回収して使い回す。",
+    destination: "【リソース無限回収】1ターンに何度も使いたいフィールド魔法や永続魔法を手札に戻して再発動し、アドバンテージを爆発させる。",
+    rules: "・エラッタにより同名ターン1制限がついたが、依然としてコンボ性能は非常に高い。",
+    connections: [
+      { id: 85507811, tag: "素材", name: "深海姫プリマドーナ", desc: "Lv7シンクロへの足がかり" }
+    ]
+  },
+  85507811: {
+    id: 85507811,
+    name: "深海姫プリマドーナ",
+    kana: "しんかいきプリマドーナ",
+    type: "海竜族 / シンクロ / チューナー / 効果",
+    attr: "水", lv: "★7", atk: 1500, def: 2700,
+    category: "中継Sチューナー",
+    text: "チューナー＋チューナー以外のモンスター１体以上\nこのカード名の①②の効果はそれぞれ１ターンに１度しか使用できない。①：除外されている相手のカード１枚を対象として発動できる。デッキからレベル４以下の水属性モンスター１体を手札に加えるか特殊召喚し、対象のカードを相手の手札に加える。②：このカードがＳ素材として墓地へ送られた場合、自分フィールドのＳモンスター１体を対象として発動できる。そのモンスターは相手の効果の対象にならない。",
+    role: "相手の除外カードを代償に、デッキから水属性を直接リクルートする超強力中継シンクロ。S素材になれば味方に強固な対象耐性を付与する。",
+    destination: "【Lv10シンクロ到達】デッキから任意のレベル3〜4をリクルートし、自身(Lv7チューナー)と合わせて《相剣大公－承影》や《氷水啼エジル・ギュミル》を着地させる。",
+    rules: "・相手の除外カードが1枚も存在しない場合は①の効果を発動できない点に注意（白闘気や墓穴で事前に除外を作るのがコツ）。",
+    connections: [
+      { id: 33550694, tag: "目標", name: "相剣大公－承影", desc: "Lv7プリマドーナ＋Lv3でLv10シンクロ" },
+      { id: 62241001, tag: "目標", name: "氷水啼エジル・ギュミル", desc: "Lv10完全耐性シンクロへ接続" }
+    ]
+  },
+  62241001: {
+    id: 62241001,
+    name: "氷水啼エジル・ギュミル",
+    kana: "イニエ・エジル・ギュミル",
+    type: "水族 / シンクロ / 効果",
+    attr: "水", lv: "★10", atk: 3000, def: 1500,
+    category: "自軍完全耐性・同名全除外",
+    text: "水属性チューナー＋チューナー以外のモンスター１体以上\nこのカード名の①②の効果はそれぞれ１ターンに１度しか使用できない。①：相手が効果を発動した時に発動できる。このターン、自分フィールドの表側表示モンスターは相手の効果では破壊されず、相手の効果では除外されない。その相手の効果の発動にチェーンしてこの効果を発動し、相手フィールド・墓地に同名カードが存在する場合、さらにそれらの同名カードを全て除外できる。",
+    role: "水属性屈指の鉄壁守護神。フリーチェーンで自軍全体に「破壊耐性＋除外耐性」を与えつつ、相手のキーカードをフィールド・墓地から根こそぎ消滅させる。",
+    destination: "【先攻エンド盤面】サンダーボルトや羽箒、モンスター除去を完全に弾き返し、返しのターンに3000打点で追撃。",
+    rules: "・効果発動にチェーンして発動した場合のみ「同名カード全除外」の追加処理が発生する。",
+    connections: [
+      { id: 85507811, tag: "素材", name: "深海姫プリマドーナ", desc: "Lv7Sチューナーから直行" }
     ]
   },
   4796100: {
@@ -499,6 +568,21 @@ const CARDS = {
       { id: 40908371, tag: "素材", name: "海晶乙女コーラルアネモネ", desc: "墓地の水属性を1体釣り上げて「墓地5体」に微調整" }
     ]
   },
+  21082832: {
+    id: 21082832,
+    name: "深淵に潜む者",
+    kana: "しんえんにひそむもの",
+    type: "海竜族 / エクシーズ / 効果",
+    attr: "水", lv: "Rank 4", atk: 1700, def: 1400,
+    category: "墓地完全停止",
+    text: "レベル４モンスター×２\n①：このカードが水属性モンスターをＸ素材としている場合、自分フィールドの水属性モンスターの攻撃力は５００アップする。②：自分・相手ターンに１度、このカードのＸ素材を１つ取り除いて発動できる。このターン、相手は墓地のカードの効果を発動できない。",
+    role: "現環境のあらゆる墓地利用テーマを機能停止に追い込む最強の置物。フリーチェーンで相手の墓地効果を完全シャットアウトする。",
+    destination: "【先攻エンド盤面】竜騎隊をX素材にしておき、相手ドローフェイズに即起動。墓地を止めながら取り除いた竜騎隊でサーチを連鎖させる。",
+    rules: "・水属性素材を持つと自軍全体がATK+500。自身も実質2200打点になる。\n・自分のターン中にあらかじめ発動しておけば、相手の墓地誘発や破壊時誘発も封殺できる。",
+    connections: [
+      { id: 74311226, tag: "素材", name: "海皇の竜騎隊", desc: "X素材にして効果起動時に取り除いてサーチ" }
+    ]
+  },
   40908371: {
     id: 40908371,
     name: "海晶乙女コーラルアネモネ",
@@ -515,6 +599,21 @@ const CARDS = {
       { id: 47346782, tag: "素材", name: "海皇子 ネプトアビス", desc: "墓地のネプトを蘇生して再起動" }
     ]
   },
+  71200730: {
+    id: 71200730,
+    name: "No.4 猛毒刺胞ステルス・クラーゲン",
+    kana: "ステルス・クラーゲン",
+    type: "水族 / エクシーズ / 効果",
+    attr: "水", lv: "Rank 4", atk: 1900, def: 1500,
+    category: "属性強制・フリーチェーン破壊",
+    text: "水属性レベル４モンスター×２\n①：フィールドの表側表示モンスターは水属性になる。②：１ターンに１度、自分・相手のメインフェイズに発動できる。相手フィールドの水属性モンスター１体を選んで破壊し、その攻撃力の半分のダメージを相手に与える。③：Ｘ召喚したこのカードが破壊された場合に発動できる。このカードが持っていたＸ素材の数まで、ＥＸデッキから「ステルス・クラーゲン・エフィス」を特殊召喚する。",
+    role: "フィールドの全モンスターを強制的に水属性に書き換える。相手の素材指定（闇属性指定、光属性指定など）を崩壊させつつ、フリチェ除去を撃ち込む。",
+    destination: "【妥協制圧】増殖するGを食らった際に最小手数の2体で立ててエンドし、相手の展開を属性ルールで妨害する。",
+    rules: "・対象を取らない破壊。\n・破壊されても後続のクラゲトークン（エフィス）が2体分裂して湧き出るため場持ちが極めて良い。",
+    connections: [
+      { id: 74311226, tag: "素材", name: "海皇の竜騎隊", desc: "Lv4×2でX召喚" }
+    ]
+  },
   72402069: {
     id: 72402069,
     name: "世海龍ジーランティス",
@@ -527,7 +626,101 @@ const CARDS = {
     destination: "【完全消滅OTK】コーラルアネモネ発動後に出すことで、相手の非水属性モンスターを1体残らず除外消滅させ、更地にして8000LPを削り倒す。",
     rules: "・【ルール裁定の急所】ジーランティスを出す前に《コーラルアネモネ》の効果を使っておくこと。特殊召喚を行う主体が自分であるため、相手の場のモンスターであっても水属性以外は特殊召喚できず、除外されたまま消滅する。",
     connections: [
-      { id: 40908371, tag: "素材", name: "海晶乙女コーラルアネモネ", desc: "事前に水属性特殊召喚縛りを自身にかける必須相棒" }
+      { id: 40908371, tag: "素材", name: "海晶乙女コーラルアネモネ", desc: "事前に水属性特殊召喚縛りを自身にかける必須相棒" },
+      { id: 33550694, tag: "素材", name: "相剣大公－承影", desc: "全体除外に反応して承影の盤面除外が誘発" }
+    ]
+  },
+  33550694: {
+    id: 33550694,
+    name: "相剣大公－承影",
+    kana: "そうけんだいこう－ショウエイ",
+    type: "幻竜族 / シンクロ / 効果",
+    attr: "水", lv: "★10", atk: 3000, def: 3000,
+    category: "打点デバフ・非対象除外",
+    text: "チューナー＋チューナー以外のモンスター１体以上\nこのカード名の③の効果は１ターンに１度しか使用できない。①：除外されているカードの数×１００だけ、このカードの攻撃力・守備力はアップし、相手フィールドのモンスターの攻撃力・守備力はダウンする。②：このカードが効果で破壊される場合、代わりに自分の墓地のカード１枚を除外できる。③：カードが除外された場合に発動できる。相手のフィールド及び墓地のカードをそれぞれ１枚ずつ選んで除外する。",
+    role: "水属性の誇る超打点フィニッシャー。除外枚数に応じて相手全体を弱体化させつつ自身をパンプ。カードが除外された瞬間に盤面と墓地を同時に消し去る。",
+    destination: "【後攻ワンパン】除外ゾーンが肥えた状態で攻撃力4000超となり、相手モンスターを弱体化させて大ダメージを与えて即死させる。",
+    rules: "・③の効果は「対象を取らない」除外。破壊耐性も対象耐性もすべて貫通する。",
+    connections: [
+      { id: 85507811, tag: "素材", name: "深海姫プリマドーナ", desc: "Lv7プリマドーナ＋Lv3でS召喚" },
+      { id: 72402069, tag: "素材", name: "世海龍ジーランティス", desc: "ジーランティスの全体除外で承影の除外効果が即座に誘発" }
+    ]
+  },
+  3569990: {
+    id: 3569990,
+    name: "氷結界の還零龍 トリシューラ",
+    kana: "ひょうけっかいのかんれいりゅう トリシューラ",
+    type: "ドラゴン族 / シンクロ / 効果",
+    attr: "水", lv: "★11", atk: 2700, def: 2000,
+    category: "3枚除外・全体無力化",
+    text: "チューナー＋チューナー以外のモンスター２体以上\nこのカード名の①の効果は１ターンに１度しか使用できない。①：このカードがＳ召喚に成功した時に発動できる。相手フィールドのカードを３枚まで選んで除外する。②：Ｓ召喚したこのカードが相手によって破壊された場合に発動できる。自分のＥＸデッキ・墓地から「氷結界の龍 トリシューラ」１体を、攻撃力を３３００にして特殊召喚する。相手フィールドに表側表示モンスターが存在する場合、さらにそれらのモンスターの攻撃力は半分になり、効果は無効化される。",
+    role: "対象を取らない3枚完全除外。さらに破壊されても後続のトリシューラが3300打点で降臨し相手全体を無力化する理不尽な死に際効果を持つ。",
+    destination: "【盤面崩壊】後攻から着地させて相手の制圧モンスターや妨害置物を3枚根こそぎ消し去り、そのまま総攻撃でフィニッシュする。",
+    rules: "・召喚条件は「チューナー以外のモンスター2体以上」であるため、合計3体以上の素材が必要。",
+    connections: [
+      { id: 80604091, tag: "素材", name: "氷結界の鏡魔師", desc: "鏡魔師のトークン生成から一瞬でLv11を成立" }
+    ]
+  },
+  88307361: {
+    id: 88307361,
+    name: "超古深海王シーラカンス",
+    kana: "ちょうこしんかいおうシーラカンス",
+    type: "魚族 / 効果",
+    attr: "水", lv: "★7", atk: 2800, def: 2200,
+    category: "大量展開・魚族の神",
+    text: "①：１ターンに１度、手札を１枚捨てて発動できる。デッキからレベル４以下の魚族モンスターを可能な限り特殊召喚する（同名カードは１枚まで）。この効果で特殊召喚したモンスターは攻撃宣言できず、効果は無効化される。②：フィールドのこのカードを対象とする魔法・罠・モンスターの効果が発動した時、このカード以外の自分フィールドの魚族モンスター１体をリリースして発動できる。その効果を無効にし破壊する。",
+    role: "魚族水属性の絶対神。手札を1枚捨てるだけでデッキから魚族を4体一気に呼び出し、無限のリンク・シンクロ展開を可能にする。",
+    destination: "【1キル盤面確定】呼び出した魚族からリンク・シンクロを連打し、1ターンで10,000以上の総打点を叩き出す。",
+    rules: "・手札を捨てるのは効果ではなく「コスト」。\n・特殊召喚したモンスターの効果は無効化されるが、墓地へ送られた時の効果は通常通り発動可能。",
+    connections: [
+      { id: 40908371, tag: "素材", name: "海晶乙女コーラルアネモネ", desc: "素材展開の中継点" }
+    ]
+  },
+  68400115: {
+    id: 68400115,
+    name: "水霊術－「葵」",
+    kana: "すいれいじゅつ－あおい",
+    type: "通常罠",
+    attr: "罠", lv: "—", atk: "—", def: "—",
+    category: "ピーピングハンデス",
+    text: "①：自分フィールドの水属性モンスター１体をリリースして発動できる。相手の手札を確認し、その中からカード１枚を選んで墓地へ送る。",
+    role: "相手の手札を全て覗き見た上で、一番危険なカードを墓地へ送るピーピングハンデス。相手の捲りプラン（超融合やサンダーボルト等）を確実に摘み取る。",
+    destination: "【先攻詰み】ムーラングレイスの2ハンデス後に発動し、残った手札から回答を完全に消し去ってゲームエンドに持ち込む。",
+    rules: "・リリースするのはコスト。\n・相手の手札を公開情報にするため、相手が構えている手札誘発の種類も完全に把握できる。",
+    connections: [
+      { id: 4796100, tag: "目標", name: "氷霊神ムーラングレイス", desc: "2ハンデスと組み合わせて相手手札を壊滅" }
+    ]
+  },
+  56888001: {
+    id: 56888001,
+    name: "深海レペティティス",
+    kana: "しんかいレペティティス",
+    type: "海竜族 / シンクロ / チューナー / 効果",
+    attr: "水", lv: "★5", atk: 1500, def: 2700,
+    category: "中継S・相手墓地除外",
+    text: "「深海のディーヴァ」＋チューナー以外のモンスター１体以上\nこのカード名の①②の効果はそれぞれ１ターンに１度しか使用できない。①：このカードがＳ召喚に成功した場合、相手の墓地のカード１枚を対象として発動できる。そのカードを除外する。②：このカードが墓地へ送られた場合、自分の墓地のレベル４以下の水属性モンスター１体を対象として発動できる。そのモンスターを手札に加える。",
+    role: "ディーヴァから直行できるレベル5Sチューナー。プリマドーナの条件となる「相手の除外カード」を自力で作り出す完璧な架け橋。",
+    destination: "【プリマドーナ起動】相手の墓地を除外してプリマドーナの特殊召喚効果を100%確実にアクティブ化する。",
+    rules: "・シンクロ素材に「深海のディーヴァ」の指定がある点に注意。",
+    connections: [
+      { id: 33814470, tag: "素材", name: "深海のディーヴァ", desc: "素材指定チューナー" },
+      { id: 85507811, tag: "目標", name: "深海姫プリマドーナ", desc: "除外を作ってプリマドーナの効果を確実起動" }
+    ]
+  },
+  42001001: {
+    id: 42001001,
+    name: "水精鱗－アビスパイク",
+    kana: "マーメイル－アビスパイク",
+    type: "魚族 / 効果",
+    attr: "水", lv: "★4", atk: 1600, def: 800,
+    category: "初動サーチ・海皇起動",
+    text: "①：このカードが召喚・特殊召喚に成功した時、手札から水属性モンスター１体を墓地へ捨てて発動できる。デッキからレベル３以下の水属性モンスター１体を手札に加える。",
+    role: "手札の海皇をコストとして捨てながら、ディーヴァや重装兵、狙撃兵をピンポイントでサーチする万能リクルーター。",
+    destination: "【ディーヴァ確保】手札の重装兵を捨てて相手盤面を破壊しつつ、次ターンの核となる《深海のディーヴァ》を確実に引き込む。",
+    rules: "・捨てるのはコスト。海皇の効果が綺麗に誘発する。",
+    connections: [
+      { id: 33814470, tag: "目標", name: "深海のディーヴァ", desc: "デッキから手札に加える" },
+      { id: 74311226, tag: "素材", name: "海皇の竜騎隊", desc: "手札コストにして海竜族サーチ" }
     ]
   }
 };
@@ -535,6 +728,11 @@ const CARDS = {
 let currentCardId = 33814470;
 let historyStack = [33814470];
 let historyIndex = 0;
+
+function getCardImgSrc(id) {
+  // Use images.ygoprodeck.com directly with no-referrer
+  return `https://images.ygoprodeck.com/images/cards/${id}.jpg`;
+}
 
 function renderCard(id, recordHistory = true) {
   const card = CARDS[id];
@@ -552,7 +750,6 @@ function renderCard(id, recordHistory = true) {
   updateHistoryUI();
 
   const detailEl = document.getElementById("card-detail-view");
-  const localImg = localStorage.getItem("card_img_" + id) || EMBEDDED_CARD_IMAGES[id] || "";
 
   detailEl.innerHTML = `
     <div class="card-header-bar">
@@ -563,22 +760,17 @@ function renderCard(id, recordHistory = true) {
       <span class="card-code">No.${Object.keys(CARDS).indexOf(id.toString()) + 1}</span>
     </div>
 
-    <!-- Real Image Display -->
+    <!-- Official Artwork Display -->
     <div class="card-stage-container">
-      <div id="img-container-${id}" style="width:100%; display:flex; justify-content:center; align-items:center; min-height:360px;">
-        ${localImg ? 
-          `<img class="official-card-img" src="${localImg}" alt="${card.name}">` : 
-          `<div style="text-align:center; padding:30px 10px; color:#aaa;">
-             <div style="font-size:32px; margin-bottom:8px;">🎴</div>
-             <div style="font-size:13px; font-weight:bold; color:#fff;">【${card.name}】</div>
-             <div style="font-size:11px; margin-top:4px;">パスコード: ${id}</div>
-             <div style="margin-top:14px;">
-               <input type="file" id="picker-${id}" accept="image/*" style="display:none;" onchange="loadCardImage(event, ${id})">
-               <button class="win-btn" onclick="document.getElementById('picker-${id}').click()">🖼️ 実物カード画像ファイルを選択</button>
-             </div>
-             <div style="font-size:10px; color:#888; margin-top:8px;">※一度選択すると端末内に永久保存され、以降は常時実物表示されます</div>
-           </div>`
-        }
+      <img id="card-img-element" class="official-card-img" 
+           src="${getCardImgSrc(id)}" 
+           alt="${card.name}"
+           referrerpolicy="no-referrer"
+           crossorigin="anonymous"
+           onerror="onImgFail(this, ${id})">
+      <div class="img-badge">
+        <span>KONAMI公式カードイラスト</span>
+        <button class="win-btn" style="font-size:10px; padding:1px 5px;" onclick="reloadImage(${id})">再取得</button>
       </div>
     </div>
 
@@ -632,20 +824,35 @@ function renderCard(id, recordHistory = true) {
   renderCardList();
 }
 
-function loadCardImage(event, id) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const base64 = e.target.result;
-    try {
-      localStorage.setItem("card_img_" + id, base64);
-    } catch(err) {
-      console.warn("Storage full", err);
-    }
-    renderCard(id, false);
-  };
-  reader.readAsDataURL(file);
+function onImgFail(img, id) {
+  // Try proxies if direct fails
+  const proxies = [
+    `https://wsrv.nl/?url=images.ygoprodeck.com/images/cards/${id}.jpg`,
+    `https://images.weserv.nl/?url=images.ygoprodeck.com/images/cards_small/${id}.jpg`
+  ];
+  const cur = img.getAttribute("data-proxy-idx") || "0";
+  const idx = parseInt(cur);
+  if (idx < proxies.length) {
+    img.setAttribute("data-proxy-idx", (idx + 1).toString());
+    img.src = proxies[idx];
+  } else {
+    img.outerHTML = `
+      <div style="color:#aaa; text-align:center; padding:50px 20px;">
+        <div style="font-size:26px;">🎴</div>
+        <div style="font-size:13px; font-weight:bold; margin-top:8px; color:#fff;">【${CARDS[id].name}】</div>
+        <div style="font-size:11px; color:#ccc; margin-top:4px;">パスコード: ${id}</div>
+        <div style="font-size:10px; color:#888; margin-top:8px;">※ローカル制限により外部画像が遮断されています。Web経由またはWi-Fi接続で表示されます。</div>
+      </div>
+    `;
+  }
+}
+
+function reloadImage(id) {
+  const img = document.getElementById("card-img-element");
+  if (img) {
+    img.removeAttribute("data-proxy-idx");
+    img.src = `https://wsrv.nl/?url=images.ygoprodeck.com/images/cards/${id}.jpg&t=${Date.now()}`;
+  }
 }
 
 function jumpToCard(id) {
@@ -712,7 +919,7 @@ function renderCardList() {
 }
 
 function showHelp() {
-  alert("【完全自己完結版 ガイド】\n・模式図は一切排除し、本物の実物カード画像専用仕様です。\n・ローカル環境下でも「画像ファイルを選択」から1回選べば端末内にBase64で完全保存されます。");
+  alert("【水属性大辞典 操作ガイド】\n・左下「カード一覧」で全22枚を瞬時に検索・選択できます。\n・カード内の接続リンクを押すとそのカードへジャンプします。\n・「← 戻る」ボタンや上部の履歴リンクでいつでも前のカードへ戻れます。\n・公式カード画像を直接読み込みます。");
 }
 
 window.onload = () => {
