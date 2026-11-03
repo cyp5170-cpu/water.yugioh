@@ -191,21 +191,6 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.8);
     display: block;
   }
-  .img-control-bar {
-    margin-top: 6px;
-    display: flex;
-    gap: 6px;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    background: #222;
-    padding: 4px;
-    border-radius: 3px;
-  }
-  .img-badge {
-    font-size: 10px;
-    color: #00ffcc;
-  }
 
   .stats-grid {
     display: flex;
@@ -734,42 +719,6 @@ let currentCardId = 33814470;
 let historyStack = [33814470];
 let historyIndex = 0;
 
-// IndexedDB Storage to hold Base64 of real cards locally
-let db;
-const request = indexedDB.open("YugiohWaterCodexDB", 1);
-request.onupgradeneeded = (e) => {
-  db = e.target.result;
-  if (!db.objectStoreNames.contains("card_images")) {
-    db.createObjectStore("card_images");
-  }
-};
-request.onsuccess = (e) => {
-  db = e.target.result;
-  loadCachedImage(currentCardId);
-};
-
-function getLocalStoredImage(id, callback) {
-  if (!db) { callback(null); return; }
-  try {
-    const tx = db.transaction("card_images", "readonly");
-    const store = tx.objectStore("card_images");
-    const getReq = store.get(id);
-    getReq.onsuccess = () => {
-      callback(getReq.result || null);
-    };
-    getReq.onerror = () => callback(null);
-  } catch(e) { callback(null); }
-}
-
-function saveLocalStoredImage(id, base64Data) {
-  if (!db) return;
-  try {
-    const tx = db.transaction("card_images", "readwrite");
-    const store = tx.objectStore("card_images");
-    store.put(base64Data, id);
-  } catch(e) {}
-}
-
 function renderCard(id, recordHistory = true) {
   const card = CARDS[id];
   if (!card) return;
@@ -796,19 +745,13 @@ function renderCard(id, recordHistory = true) {
       <span class="card-code">No.${Object.keys(CARDS).indexOf(id.toString()) + 1}</span>
     </div>
 
-    <!-- Official Real Artwork Display with Offline Store Cache -->
+    <!-- Official Real Artwork Display via Reliable Proxy -->
     <div class="card-stage-container">
       <img id="card-img-element" class="official-card-img" 
-           src="https://images.weserv.nl/?url=images.ygoprodeck.com/images/cards/${id}.jpg" onerror="this.onerror=null; this.src='https://wsrv.nl/?url=images.ygoprodeck.com/images/cards/' + id + '.jpg';" 
+           src="https://images.weserv.nl/?url=images.ygoprodeck.com/images/cards/${id}.jpg" 
+           onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='https://wsrv.nl/?url=images.ygoprodeck.com/images/cards/' + ${id} + '.jpg';}"
            alt="${card.name}"
-           referrerpolicy="no-referrer"
-           crossorigin="anonymous">
-      <div class="img-control-bar">
-        <span class="img-badge" id="img-status-label">KONAMI公式実物画像</span>
-        <input type="file" id="local-file-picker" accept="image/*" style="display:none;" onchange="handleUserManualImage(event, ${id})">
-        <button class="win-btn" style="font-size:10px;" onclick="document.getElementById('local-file-picker').click()">📁 画像指定</button>
-        <button class="win-btn" style="font-size:10px;" onclick="forceFetchOnlineImage(${id})">🌐 ネットから取得</button>
-      </div>
+           referrerpolicy="no-referrer">
     </div>
 
     <div class="stats-grid">
@@ -858,62 +801,7 @@ function renderCard(id, recordHistory = true) {
 
   document.getElementById("status-bar-text").innerText = `表示中: ${card.name} [${card.category}]`;
   document.getElementById("main-viewport").scrollTop = 0;
-  loadCachedImage(id);
   renderCardList();
-}
-
-function loadCachedImage(id) {
-  getLocalStoredImage(id, (cachedData) => {
-    const imgEl = document.getElementById("card-img-element");
-    const labelEl = document.getElementById("img-status-label");
-    if (cachedData && imgEl) {
-      imgEl.src = cachedData;
-      if (labelEl) labelEl.innerText = "💾 端末内キャッシュ表示中 (完全オフライン)";
-    }
-  });
-}
-
-function handleUserManualImage(event, id) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const b64 = e.target.result;
-    saveLocalStoredImage(id, b64);
-    const imgEl = document.getElementById("card-img-element");
-    if (imgEl) imgEl.src = b64;
-    const labelEl = document.getElementById("img-status-label");
-    if (labelEl) labelEl.innerText = "💾 端末内保存完了";
-  };
-  reader.readAsDataURL(file);
-}
-
-function forceFetchOnlineImage(id) {
-  const imgEl = document.getElementById("card-img-element");
-  const labelEl = document.getElementById("img-status-label");
-  if (!imgEl) return;
-  labelEl.innerText = "取得中...";
-  const url = `https://wsrv.nl/?url=images.ygoprodeck.com/images/cards/${id}.jpg&output=jpg`;
-  
-  // Convert fetched image to Base64 and store in IndexedDB
-  const tempImg = new Image();
-  tempImg.crossOrigin = "anonymous";
-  tempImg.onload = () => {
-    const canvas = document.createElement("canvas");
-    canvas.width = tempImg.naturalWidth;
-    canvas.height = tempImg.naturalHeight;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(tempImg, 0, 0);
-    const dataUrl = canvas.toDataURL("image/jpeg");
-    saveLocalStoredImage(id, dataUrl);
-    imgEl.src = dataUrl;
-    labelEl.innerText = "💾 端末内へ永久保存完了！";
-  };
-  tempImg.onerror = () => {
-    imgEl.src = `https://images.weserv.nl/?url=images.ygoprodeck.com/images/cards/${id}.jpg`;
-    labelEl.innerText = "プロキシ経由取得中";
-  };
-  tempImg.src = url;
 }
 
 function jumpToCard(id) {
@@ -980,7 +868,7 @@ function renderCardList() {
 }
 
 function showHelp() {
-  alert("【操作ガイド】\n・モード：本物のKONAMI公式カード画像レンダラー\n・「📁 画像指定」ボタンでスマホ内のお好きな公式実物カード画像を1枚指定すると、端末内DB（IndexedDB）に永久キャッシュされオフラインでも常時表示されます。\n・「🌐 ネットから取得」で公式画像を端末内に自動キャッシュ保存できます。");
+  alert("【水属性大辞典 操作ガイド】\n・左下「カード一覧」で全22枚を瞬時に検索・選択できます。\n・カード内の接続リンクを押すとそのカードへジャンプします。\n・「← 戻る」ボタンや上部の履歴リンクでいつでも前のカードへ戻れます。\n・公式カード画像プロキシ経由で直接高精細イラストを読み込みます。");
 }
 
 window.onload = () => {
